@@ -10,7 +10,7 @@ class SearchBook extends Component {
         books: []
     }
 
-    clearQuery = () => {
+    resetState = () => {
         this.setState({ query: '', books: []})
     }
 
@@ -20,10 +20,9 @@ class SearchBook extends Component {
 
     handleSearch = (query) => {
         if(!query) {
-            this.clearQuery(query)
-        } else{         
+           this.resetState()
+          } else{ 
             this.updateQuery(query)
-
             BooksAPI.search(query).then(books => {
                 books.map(book => (this.props.books.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf)))
                 this.setState({ books })            
