@@ -1,7 +1,6 @@
 # My Reads
 
-My Reads is a react application which allows us to manage books in shelfs shelfs and search for new books to add to the existing shelfs.
-
+My Reads is a react application which allows us to manage our books in shelfs. We can search for new books and add to any of the existing shelfs.
 
 ## Installation
 
