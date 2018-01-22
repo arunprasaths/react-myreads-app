@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
+import {DebounceInput} from 'react-debounce-input'
 
 class SearchBook extends Component {
 
@@ -21,10 +22,14 @@ class SearchBook extends Component {
     handleSearch = (query) => {
         if(!query) {
            this.resetState()
-          } else{ 
-            this.updateQuery(query)
+          } else{               
+            this.updateQuery(query)            
             BooksAPI.search(query).then(books => {
-                books.map(book => (this.props.books.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf)))
+                books.map(book => {  
+                            book.shelf = "none"                        
+                            this.props.books.filter(b => b.id===book.id).map(b=> book.shelf = b.shelf)                            
+                            }
+                        )
                 this.setState({ books })            
             })   
         }
@@ -38,12 +43,14 @@ class SearchBook extends Component {
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
-                    <div className="search-books-input-wrapper">                      
-                        <input type="text"
-                        autoFocus
-                        value={query}  
-                        onChange={(event) => this.handleSearch(event.target.value)} 
-                        placeholder="Search by title or author" />
+                    <div className="search-books-input-wrapper">    
+                        <DebounceInput
+                            autoFocus
+                            value={query}  
+                            minLength={2}
+                            debounceTimeout={300}
+                            onChange={(event) => this.handleSearch(event.target.value)} 
+                            placeholder="Search by title or author" />
                     </div>                   
                 </div>
                 <div className="search-books-results">                     
